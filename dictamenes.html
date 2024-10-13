@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">	
+    <title>Buscador de dictamenes</title>
+      <style>
+        /* Estilos para el navegador */
+        body{
+          width:100vw;
+          height: 100vh;
+        }
+        p {
+            font-weight: bold;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        a{
+          color: white;
+        }
+        label{
+          color: white;
+        }
+        .navegador {
+            height: 15%;
+        }
+        .barra-horizontal {
+            height: 2.5%; /* Ajusta el alto según tus preferencias */
+        }
+        .resultadoCompleto {
+            height: 65%;
+        }
+        .mostrarPDF{
+            height: 100%;
+            width : 100%;
+        }
+        .resultado {
+            height: 100%;
+            width : 40%;
+            float: left;
+            overflow: scroll;
+        }
+        .mostrar {
+            height: 100%;
+            width : 60%;
+            float: left;
+            overflow: scroll;
+        }
+        .pie {
+            height: 5%;
+        }
+
+        /* Estilos para la barra horizontal */
+
+        .barra-color {
+            float: left;
+            height: 100%;
+            width: 16.5%;
+        }
+        .barra-color-punta {
+            float: left;
+            height: 100%;
+            width: 0.5%;
+        }
+        .blanco { background-color: #ffffff; }
+        .azul { background-color: #003fa2; }
+        .celeste { background-color: #4ba6de; }
+        .violeta { background-color: #8c78cf; }
+        .rojo { background-color: #dd463c; }
+        .naranja { background-color: #eb7e39; }
+        .amarillo { background-color: #f1bd4a; }
+        .verde { background-color: #4eba74; }
+    </style>
+</head>
+<body>
+    <div class="navegador azul">
+        <input type="text" id="textoABuscar" placeholder="Ingrese el texto a buscar">
+        <button type="button" onclick="buscar()">Buscar</button>
+        </br>
+        <label for="AñoInicio">Desde:</label>
+        <select id="aInicio">
+        </select>
+
+        <label for="AñoFinal">Hasta:</label>
+        <select id="aFinal">
+        </select>
+        </br>
+        <label for="fechaDesde">Referencia:</label>
+        <input type="text" id="referencia" placeholder="Ingrese el numero de dictamen, o fecha en formato dd.mm.aaaa">
+    </div>
+    <div class="barra-horizontal">
+      <div class="barra-color-punta celeste"></div>
+      <div class="barra-color celeste"></div>
+      <div class="barra-color violeta"></div>
+      <div class="barra-color rojo"></div>
+      <div class="barra-color naranja"></div>
+      <div class="barra-color amarillo"></div>
+      <div class="barra-color verde"></div>
+      <div class="barra-color-punta verde"></div>
+    </div>
+    <div class="resultadoCompleto">
+      <div id="resultado" class="resultado blanco">
+      </div>
+      <div id="mostararPdf" class="mostrar blanco">
+        <iframe id="mi-pdf" class="mostrarPDF" src="" frameborder="0"></iframe>
+      </div>
+    </div>
+    <div class="barra-horizontal">
+      <div class="barra-color-punta celeste"></div>
+      <div class="barra-color celeste"></div>
+      <div class="barra-color violeta"></div>
+      <div class="barra-color rojo"></div>
+      <div class="barra-color naranja"></div>
+      <div class="barra-color amarillo"></div>
+      <div class="barra-color verde"></div>
+      <div class="barra-color-punta verde"></div>
+    </div>  
+    <div class="pie azul">
+      <a href="https://docs.google.com/document/d/1__s3LNiZRHvRVJR7iDH-dqtI4nousmhg3u55-55BSiQ/edit?usp=sharing"> Powered by Nico </a>
+    </div>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+       // Obtener los resultados desde la URL
+      rellenarSelect("aInicio",2006,2024,2006);
+      rellenarSelect("aFinal",2006,2024,2024);
+
+      function rellenarSelect(id,ini,fin,sel){
+        const selectElement = document.getElementById(id);
+        for (let year = ini; year <= fin; year++) {
+          const option = document.createElement('option');
+          option.value = year;
+          option.text = year;
+          if (year === sel) option.selected = true;
+          selectElement.appendChild(option);
+        } 
+      }
+
+      function buscar() {
+        mostrarBuscando();
+        const textoABuscar = $('#textoABuscar').val()||"null";
+        const anoInicial = $('#aInicio').val()||2006;
+        const anoFinal = $('#aFinal').val()||2024;
+        const referenciaABuscar = $('#referencia').val()||"null";
+  
+        const idScript = 'AKfycbwUgegqrn_RI1BkypO053DclypWeVjcyVvMRz57MI7P0GkStrhZZ1CRJbTGIO5Ng4vk';
+        const url = 'https://script.google.com/macros/s/'+idScript+'/exec?funcion=buscarArchivos&texto=' + encodeURIComponent(textoABuscar) + '&aInicial=' + encodeURIComponent(anoInicial)+ '&aFinal=' + encodeURIComponent(anoFinal)+'&referencia=' + encodeURIComponent(referenciaABuscar);
+        console.log(url);
+
+        $.ajax({
+          url: url,
+          method: 'GET',
+          success: function(response) {
+            $('#resultados').html('');
+            mostrarResultados(response);
+           },
+            error: function(error) {
+            console.error(error);
+            $('#resultados').html('Error al buscar archivos');
+          }
+        });
+      }
+
+      function mostrarResultados(archivos) {
+	      var resultadosDiv = document.getElementById("resultado");
+	      resultadosDiv.innerHTML = "";
+        console.log(archivos);
+        resultados = resultados.concat(
+            archivos.map(archivos => ({ ...archivos, anclado: false }))
+        );
+        resultados = resultados.filter(resultado => resultado.anclado)
+          .concat(archivos.map(archivo => ({ ...archivo, anclado: false })));
+        console.log(resultados);
+        if (resultados.length){
+          for (var i = 0; i < resultados.length; i++) {
+            var ress = resultados[i];
+            resultadosDiv.innerHTML += `<p>[<span id="${ress.id}" onclick="anclarDesanclarResultado('${ress.id}');mostrarAncladoDesanclado('${ress.id}')">A</span>] <span onclick="mostrarPdf('${ress.id}');">${ress.name}</span></p>`;
+            mostrarAncladoDesanclado(ress.id);
+          }
+        }else{
+          resultadosDiv.innerHTML += `Utiliza el buscador para encontrar el dictamen requerido`;
+        }
+      }
+
+      var resultados = Array();
+      function anclarDesanclarResultado(id) {
+          const indice = resultados.findIndex(item => item.id === id);
+          if (indice !== -1) {
+              resultados[indice].anclado = !resultados[indice].anclado;
+          } else {
+              console.error(`No se encontró ningún resultado con el ID: ${id}`);
+          }
+      }
+      function mostrarAncladoDesanclado(id){
+        const indice = resultados.findIndex(item => item.id === id);
+	      var anc = document.getElementById(id);
+	      anc.innerHTML = resultados[indice].anclado?"A":"D"; 
+      }
+      function mostrarPdf(id){
+        var iframe = document.getElementById('mi-pdf');
+        iframe.src = "https://drive.google.com/file/d/"+id+"/preview";
+      }
+
+      function mostrarBuscando(){
+	      var resultadosDiv = document.getElementById("resultado");
+	      resultadosDiv.innerHTML = "Buscando..."; 
+      }  
+
+    </script>
+</body>
+</html>

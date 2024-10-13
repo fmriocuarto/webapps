@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">	
+    <title>Notificaciones</title>
+    <style>
+        /* Estilos para el navegador */
+       
+	p{
+	    font-size: 25px;
+      margin-top: 0px;
+      margin-bottom: 0px;		
+	}
+  .titulo{
+	    font-size: 40px;
+      
+	}
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  .caja{
+    border: 2px;
+    border-color: black;
+    border-style: double;
+    margin: 30px;
+  }
+	.derecha{
+    		text-align: right;
+	}
+  .centrar{
+        text-align: center;
+  }
+  .justificado{
+     text-align: justify;
+  }
+	.block{
+            font-weight: bold;
+        }
+	.encabezado{
+	    width:100%;
+	}
+  .firma{
+	    width:30%;
+      margin-left:35%;
+	}
+	.documento{
+		width: 100vw;
+		height: 165vw;
+		display: flex;
+		flex-direction: column;
+	}
+
+.documento > * {
+    flex: 1;
+}
+
+	   	    
+    </style>
+</head>
+<body>
+    <div id="ejecutador" class="ejecutador">
+        <h1>Sistema de envío de Notificaciones</h1>
+            <label for="fecha">Fecha:</label>
+            <input type="text" id="fecha" name="fecha">
+            </br>
+            <label for="nombreApellido">Nombre y Apellido:</label>
+            <input type="text" id="nombreApellido" name="nombreApellido">
+            <label for="numeroFallo">Número de Fallo:</label>
+            <input type="text" id="numeroFallo" name="numeroFallo">
+            </br>
+            <label for="destino">Ubicación:</label>
+            <input type="text" id="destino" name="destino" value="">
+            </br>
+	    <input type="button" onclick="generarDocumento()" value="Imprimir">
+	    <input type="button" onclick="guardarInfo()" value="Guardar">
+	    <input type="button" onclick="buscarInfo()" value="Buscar">
+      <input type="button" onclick="imprimirBusqueda()" value="Imprimir Busqueda">
+      <input type="button" onclick="limpiar()" value="limpiar">
+      <div id="respuesta" class="respuesta"> </div>  
+    </div>
+    <div id="listado">
+    </div>  
+    <div id="documento" class="documento">
+        <img class="encabezado" src="img/head.jpg">
+	
+	
+        <p class="centrar"> MUNICIPALIDAD DE RÍO CUARTO <br>
+							 FISCALÍA MUNICIPAL <br>
+		25 de Mayo 96 2do piso - Río Cuarto &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp TEL: 4768445 </p>    
+
+        <p class="derecha">Río Cuarto, <span id="fechaElement"></span>.<br>
+							Referencia: Fallo <span id="numeroFalloElement"></span> Y OTRAS.</p>
+        <p class="block">Sr./a<br>
+						<span id="nombreApellidoElement"></span><br>
+						<span id="destinoElement"></span><br>
+						RIO CUARTO - CP:5800</p>
+
+        <p class="block titulo centrar">PREVIO INICIO ACCION JUDICIAL O<br>
+										CONTINUACIÓN Y EMBARGO DE BIENES</p>
+
+        <div class="caja">      
+          <p class="centrar">Por medio de la presente, me dirijo a Ud. a efectos de poner en su conocimiento que al día de la fecha registra una Deuda en concepto de MULTA sancionada por el Tribunal Administrativo de Faltas Municipal, de esta Ciudad de Río Cuarto, la misma se encuentra firme y en condiciones de ser ejecutoriada .- </p>
+          <p class="centrar">Que a los fines de regularizar su situación, deberá apersonarse por ante la Oficina de  Fiscalía Municipal en el plazo de cinco (5) días de recibida la presente, sito en calle 25 de Mayo  Nº 96 - 2º Piso, de lunes a viernes de 08:00 hs. a 13:00 hs.</p>
+          <p class="centrar">Se hace saber a Ud. que de no concurrir a nuestras oficinas, se dará curso a la correspondiente acción judicial, con la consecuente traba de embargo sobre bienes de su propiedad, embargo en cuenta sueldo si existiese, inhibiciones generales, etc.-</p>
+          <br>                               
+          <p class="centrar">QUEDA UD. DEBIDAMENTE NOTIFICADO. </p>
+        </div>
+
+        <p class="centrar">EN CASO DE ESTAR ABONADO, DESESTIME ESTA NOTIFICACION.</p>
+
+        <img class="firma centrar" src="img/firma.jpg">
+ 
+        <p class="justificado">Con fecha ……………………………………, siendo las ……………………horas, me constituí en el domicilio indicado precedentemente, requiriendo la presencia del (los) interesado/s y ……………… encontrándole/s, procedí a notificar la presente, que dejé ……………………………………………………………………………………………………………………………………………………- Doy fe. </p>
+        
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+
+      limpiar();
+
+      function obtenerInfo() {
+        // Obtener los valores de los campos del formulario
+        const fecha = document.getElementById('fecha').value;
+        const nombreApellido = document.getElementById('nombreApellido').value;
+        const numeroFallo = document.getElementById('numeroFallo').value;
+        const destino = document.getElementById('destino').value;
+        return {fecha:fecha,nombreApellido:nombreApellido,numeroFallo:numeroFallo,destino:destino};
+      }
+
+      function connect2Server(funcion, info) {
+        const idScript = 'AKfycbzjuplrjdWIaHFkvqHfClNrtctgDpYt0HRhSLrfMNQRDMuzr_vxeeDR1rY716-ytLt3mQ';
+        const url = 'https://script.google.com/macros/s/' + idScript + '/exec';
+        const params = {};
+        params.funcion=funcion;
+        for (let i = 0; i < info.length; i++) {
+          params['C' + (i + 1)] = encodeURIComponent(info[i]);
+        }
+        return new Promise((resolve, reject) => {
+          $.ajax({
+            url: url,
+            method: 'GET',
+            data: params, // Send data as object for better organization
+            success: response => resolve(response),
+            error: error => reject(error)
+          });
+        });
+}
+
+      function guardarInfo(){
+        mensaje("Guardando...");
+        var info =  obtenerInfo();
+        connect2Server("insertar", [info.fecha, info.nombreApellido, info.numeroFallo, info.destino])
+              .then(resultados => {
+                 mensaje(resultados);
+              })
+              .catch(error => {
+                console.error('Error al buscar:', error);
+              });
+
+      }
+
+      function mensaje(msj){
+         document.getElementById('respuesta').innerHTML = msj;
+      }
+      function buscarInfo() {
+          mensaje("Buscando...");
+          const info = obtenerInfo();
+          connect2Server("buscar", [info.fecha, info.nombreApellido, info.numeroFallo, info.destino])
+              .then(resultados => {
+                generarResultados(resultados);
+              })
+              .catch(error => {
+                console.error('Error al buscar:', error);
+              });
+        }
+
+     /* function generarResultados(resultados){
+        limpiarMensaje();
+        document.getElementById('listado').style.display = 'block';
+        resultados.forEach((fila) => {
+            document.getElementById('listado').innerHTML += '<p>'+fila.join('-')+'</p>';
+        });
+      }*/
+
+      function generarResultados(resultados) {
+        limpiarMensaje();
+        resultados.unshift(["FECHA","NOMBRE","FALLO","DIRECCION"]);
+        // Crear la tabla
+        const tabla = document.createElement('table');
+
+        // Recorrer el array y crear las filas y celdas
+        for (let i = 0; i < resultados.length; i++) {
+          const fila = document.createElement('tr');
+          for (let j = 0; j < resultados[i].length; j++) {
+            const celda = document.createElement('td');
+            celda.textContent = resultados[i][j];
+            fila.appendChild(celda);
+          }
+          tabla.appendChild(fila);
+        }
+
+          // Agregar la tabla al cuerpo del documento (puedes cambiarlo por otro elemento)
+          document.getElementById('listado').innerHTML ="";
+          document.getElementById('listado').appendChild(tabla);
+          document.getElementById('listado').style.display = 'block';
+      }
+
+      function imprimirBusqueda(){
+        ocultarContenedores();
+        document.getElementById('ejecutador').style.display = 'none';
+        document.getElementById('listado').style.display = 'block';
+            
+        window.print();
+        ocultarContenedores();
+      }
+      
+      function limpiar(){
+        limpiarInfo()
+        limpiarMensaje();
+        ocultarContenedores();
+      }
+      function ocultarContenedores(){
+        document.getElementById('ejecutador').style.display = 'block';
+        document.getElementById('documento').style.display = 'none';
+        document.getElementById('listado').style.display = 'none';
+      } 
+      function limpiarMensaje(){
+        document.getElementById('respuesta').innerHTML = '<br><a href="https://docs.google.com/document/d/1__s3LNiZRHvRVJR7iDH-dqtI4nousmhg3u55-55BSiQ/edit?usp=sharing"> Powered by Nico </a>';
+      }
+
+      function generarDocumento(){
+        var info =  obtenerInfo();
+        ocultarContenedores();
+        document.getElementById('ejecutador').style.display = 'none';
+        document.getElementById('documento').style.display = 'flex';
+        escribirInfo(info);
+            
+        window.print();
+		window.print();
+		ocultarContenedores();
+        //Guardar info
+        connect2Server("insertar",[info.fecha,info.nombreApellido,info.numeroFallo,info.destino]);
+      }
+	  
+      function limpiarInfo(){
+        document.getElementById('fecha').value = new Date().toLocaleDateString();
+        document.getElementById('nombreApellido').value = "";
+        document.getElementById('numeroFallo').value = "";
+        document.getElementById('destino').value = "";
+      }
+
+      function escribirInfo(info){
+        document.getElementById('fechaElement').innerHTML = info.fecha;
+        document.getElementById('nombreApellidoElement').innerHTML =info.nombreApellido;
+        document.getElementById('numeroFalloElement').innerHTML = info.numeroFallo;
+        document.getElementById('destinoElement').innerHTML = info.destino;
+      }
+    </script>
+
+</body>
+</html>
