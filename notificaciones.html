@@ -6,7 +6,7 @@
     <style>
         /* Estilos para el navegador */
        
-	p{
+	p [contenteditable ="true"]{
 	    font-size: 25px;
       margin-top: 0px;
       margin-bottom: 0px;		
@@ -57,10 +57,12 @@
 		flex-direction: column;
 	}
 
-.documento > * {
-    flex: 1;
-}
-
+	.documento > * {
+		flex: 1;
+	}
+	.separado{
+		margin-left:20px;
+	}
 	   	    
     </style>
 </head>
@@ -70,19 +72,23 @@
             <label for="fecha">Fecha:</label>
             <input type="text" id="fecha" name="fecha">
             </br>
-            <label for="nombreApellido">Nombre y Apellido:</label>
+            <label for="nombreApellido">Apellido Y Nombre:</label>
             <input type="text" id="nombreApellido" name="nombreApellido">
             <label for="numeroFallo">Número de Fallo:</label>
             <input type="text" id="numeroFallo" name="numeroFallo">
             </br>
-            <label for="destino">Ubicación:</label>
+            <label for="destino">Direccion:</label>
             <input type="text" id="destino" name="destino" value="">
-            </br>
-	    <input type="button" onclick="generarDocumento()" value="Imprimir">
-	    <input type="button" onclick="guardarInfo()" value="Guardar">
-	    <input type="button" onclick="buscarInfo()" value="Buscar">
-      <input type="button" onclick="imprimirBusqueda()" value="Imprimir Busqueda">
-      <input type="button" onclick="limpiar()" value="limpiar">
+            </br></br>
+			<input type="button" onclick="generarDocumento()" value="Imprimir">
+			<input type="button" onclick="guardarInfo()" value="Guardar">
+			<input class="separado"type="button" onclick="limpiar()" value="limpiar">
+			<input class="separado"type="button" onclick="buscarInfo()" value="Buscar">
+			<input type="button" id="imprimirBusqueda" onclick="imprimirBusqueda()" value="Imprimir Busqueda" disabled>
+			<input type="button" id="imprimirElementos" onclick="imprimirElementos()" value="Imprimir Elementos" disabled>
+			<input class="separado" type="button" id="editarNotificación" onclick="editarNotificación()" value="Editar Notificacion">
+			
+			
       <div id="respuesta" class="respuesta"> </div>  
     </div>
     <div id="listado">
@@ -102,10 +108,10 @@
 						<span id="destinoElement"></span><br>
 						RIO CUARTO - CP:5800</p>
 
-        <p class="block titulo centrar">PREVIO INICIO ACCION JUDICIAL O<br>
+        <p class="block titulo centrar" contenteditable>PREVIO INICIO ACCIÓN JUDICIAL O<br>
 										CONTINUACIÓN Y EMBARGO DE BIENES</p>
 
-        <div class="caja">      
+        <div class="caja" contenteditable>      
           <p class="centrar">Por medio de la presente, me dirijo a Ud. a efectos de poner en su conocimiento que al día de la fecha registra una Deuda en concepto de MULTA sancionada por el Tribunal Administrativo de Faltas Municipal, de esta Ciudad de Río Cuarto, la misma se encuentra firme y en condiciones de ser ejecutoriada .- </p>
           <p class="centrar">Que a los fines de regularizar su situación, deberá apersonarse por ante la Oficina de  Fiscalía Municipal en el plazo de cinco (5) días de recibida la presente, sito en calle 25 de Mayo  Nº 96 - 2º Piso, de lunes a viernes de 08:00 hs. a 13:00 hs.</p>
           <p class="centrar">Se hace saber a Ud. que de no concurrir a nuestras oficinas, se dará curso a la correspondiente acción judicial, con la consecuente traba de embargo sobre bienes de su propiedad, embargo en cuenta sueldo si existiese, inhibiciones generales, etc.-</p>
@@ -117,7 +123,7 @@
 
         <img class="firma centrar" src="img/firma.jpg">
  
-        <p class="justificado">Con fecha ……………………………………, siendo las ……………………horas, me constituí en el domicilio indicado precedentemente, requiriendo la presencia del (los) interesado/s y ……………… encontrándole/s, procedí a notificar la presente, que dejé ……………………………………………………………………………………………………………………………………………………- Doy fe. </p>
+        <p class="justificado">Con fecha ……………………………………, siendo las ……………………horas, me constituí en el domicilio indicado precedentemente, requiriendo la presencia del (los) interesado/s y ……………… encontrándole/s, procedí a notificar la presente, que dejé ………………………… ……………………………………………………………………………………… …………………………………- Doy fe. </p>
         
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -159,11 +165,12 @@
         connect2Server("insertar", [info.fecha, info.nombreApellido, info.numeroFallo, info.destino])
               .then(resultados => {
                  mensaje(resultados);
+				 limpiarInfo(true);
               })
               .catch(error => {
-                console.error('Error al buscar:', error);
+                console.error('Error al guardar:', error);
               });
-
+		
       }
 
       function mensaje(msj){
@@ -181,19 +188,12 @@
               });
         }
 
-     /* function generarResultados(resultados){
-        limpiarMensaje();
-        document.getElementById('listado').style.display = 'block';
-        resultados.forEach((fila) => {
-            document.getElementById('listado').innerHTML += '<p>'+fila.join('-')+'</p>';
-        });
-      }*/
-
       function generarResultados(resultados) {
         limpiarMensaje();
         resultados.unshift(["FECHA","NOMBRE","FALLO","DIRECCION"]);
         // Crear la tabla
         const tabla = document.createElement('table');
+		tabla.id = 'ressElement'; 
 
         // Recorrer el array y crear las filas y celdas
         for (let i = 0; i < resultados.length; i++) {
@@ -205,11 +205,11 @@
           }
           tabla.appendChild(fila);
         }
-
-          // Agregar la tabla al cuerpo del documento (puedes cambiarlo por otro elemento)
           document.getElementById('listado').innerHTML ="";
           document.getElementById('listado').appendChild(tabla);
           document.getElementById('listado').style.display = 'block';
+		  document.getElementById('imprimirBusqueda').disabled = false;
+		  document.getElementById('imprimirElementos').disabled = false;
       }
 
       function imprimirBusqueda(){
@@ -218,11 +218,46 @@
         document.getElementById('listado').style.display = 'block';
             
         window.print();
+		window.print();
         ocultarContenedores();
+		document.getElementById('imprimirBusqueda').disabled = true;
+		document.getElementById('imprimirElementos').disabled = true;
       }
       
+	  function imprimirElementos(){
+		const tabla = document.getElementById('ressElement');
+		const filas = tabla.rows;
+
+        ocultarContenedores();
+        document.getElementById('ejecutador').style.display = 'none';
+        document.getElementById('documento').style.display = 'flex';
+
+		for (let i = 1; i < filas.length; i++) {
+			const celdas = filas[i].cells;
+			escribirInfo({fecha:celdas[0].textContent,nombreApellido:celdas[1].textContent,numeroFallo:celdas[2].textContent,destino:celdas[3].textContent});
+			window.print();
+			window.print();
+		}
+		
+        ocultarContenedores();
+		document.getElementById('imprimirBusqueda').disabled = true;
+		document.getElementById('imprimirElementos').disabled = true;
+      }
+	  
+	  function editarNotificación(){
+		if (document.getElementById('documento').style.display == 'flex'){
+			ocultarContenedores();
+			document.getElementById('editarNotificación').value = "Editar notificacion";
+
+		}else{
+			document.getElementById('editarNotificación').value = "Guardar notificacion";
+			document.getElementById('documento').style.display = 'flex';
+
+		}
+	  }
+	  
       function limpiar(){
-        limpiarInfo()
+        limpiarInfo();
         limpiarMensaje();
         ocultarContenedores();
       }
@@ -244,16 +279,18 @@
             
         window.print();
 		window.print();
+		limpiarInfo(true);
 		ocultarContenedores();
         //Guardar info
         connect2Server("insertar",[info.fecha,info.nombreApellido,info.numeroFallo,info.destino]);
       }
 	  
-      function limpiarInfo(){
-        document.getElementById('fecha').value = new Date().toLocaleDateString();
+      function limpiarInfo(fecha = false){
+        if(!fecha)document.getElementById('fecha').value = new Date().toLocaleDateString();
         document.getElementById('nombreApellido').value = "";
         document.getElementById('numeroFallo').value = "";
         document.getElementById('destino').value = "";
+		document.getElementById('nombreApellido').focus();
       }
 
       function escribirInfo(info){
