@@ -8,6 +8,7 @@
         body{
           width:100vw;
           height: 100vh;
+		  margin:0px;
         }
         p {
             font-weight: bold;
@@ -27,7 +28,7 @@
             height: 2.5%; /* Ajusta el alto según tus preferencias */
         }
         .resultadoCompleto {
-            height: 65%;
+            height: 75%;
         }
         .mostrarPDF{
             height: 100%;
@@ -61,6 +62,12 @@
             height: 100%;
             width: 0.5%;
         }
+		.contInputs{
+			margin-top: 1%;
+			margin-left: 1%;
+			float: left;
+		}
+		
         .blanco { background-color: #ffffff; }
         .azul { background-color: #003fa2; }
         .celeste { background-color: #4ba6de; }
@@ -73,19 +80,21 @@
 </head>
 <body>
     <div class="navegador azul">
-        <input type="text" id="textoABuscar" placeholder="Ingrese el texto a buscar">
-        <button type="button" onclick="buscar()">Buscar</button>
-        </br>
-        <label for="AñoInicio">Desde:</label>
-        <select id="aInicio">
-        </select>
+		<div class="contInputs">
+			<input type="text" id="textoABuscar" placeholder="Ingrese el texto a buscar">
+			<button type="button" onclick="buscar()">Buscar</button>
+			</br>
+			<label for="AñoInicio">Desde:</label>
+			<select id="aInicio">
+			</select>
 
-        <label for="AñoFinal">Hasta:</label>
-        <select id="aFinal">
-        </select>
-        </br>
-        <label for="fechaDesde">Referencia:</label>
-        <input type="text" id="referencia" placeholder="Ingrese el numero de dictamen, o fecha en formato dd.mm.aaaa">
+			<label for="AñoFinal">Hasta:</label>
+			<select id="aFinal">
+			</select>
+			</br>
+			<label for="fechaDesde">Referencia:</label>
+			<input type="text" id="referencia" placeholder="Ingrese el numero de dictamen, o fecha en formato dd.mm.aaaa">
+		</div>
     </div>
     <div class="barra-horizontal">
       <div class="barra-color-punta celeste"></div>
