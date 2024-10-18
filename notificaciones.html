@@ -6,53 +6,54 @@
     <style>
         /* Estilos para el navegador */
        
-	p [contenteditable ="true"]{
-	    font-size: 25px;
-      margin-top: 0px;
-      margin-bottom: 0px;		
+	p {
+	  font-size: calc(2.5vw);
+	  margin-top: 0px;
+	  margin-bottom: 0px;		
 	}
-  .titulo{
-	    font-size: 40px;
-      
+	.titulo{
+		font-size: calc(4vw);;
+	  
 	}
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
 
-  th, td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  .caja{
-    border: 2px;
-    border-color: black;
-    border-style: double;
-    margin: 30px;
-  }
+	th, td {
+		padding: 8px;
+		text-align: left;
+		border-bottom: 1px solid #ddd;
+	}
+	.caja{
+		border: calc(0.3vw);;
+		border-color: black;
+		border-style: double;
+		margin-left: 3vw;
+		width: 94vw;
+	}
 	.derecha{
-    		text-align: right;
+			text-align: right;
 	}
-  .centrar{
-        text-align: center;
-  }
-  .justificado{
-     text-align: justify;
-  }
+	.centrar{
+		text-align: center;
+	}
+	.justificado{
+	 text-align: justify;
+	}
 	.block{
-            font-weight: bold;
-        }
-	.encabezado{
-	    width:100%;
+		font-weight: bold;
 	}
-  .firma{
-	    width:30%;
-      margin-left:35%;
+	.encabezado{
+		width:100%;
+	}
+	.firma{
+		width:30%;
+		margin-left:35%;
 	}
 	.documento{
-		width: 100vw;
-		height: 165vw;
+		width: 99vw;
+		height: 162vw;
 		display: flex;
 		flex-direction: column;
 	}
@@ -107,10 +108,10 @@
 						<span id="nombreApellidoElement"></span><br>
 						<span id="destinoElement"></span><br>
 						RIO CUARTO - CP:5800</p>
-
+		<p> </p>
         <p class="block titulo centrar" contenteditable>PREVIO INICIO ACCIÓN JUDICIAL O<br>
 										CONTINUACIÓN Y EMBARGO DE BIENES</p>
-
+		
         <div class="caja" contenteditable>      
           <p class="centrar">Por medio de la presente, me dirijo a Ud. a efectos de poner en su conocimiento que al día de la fecha registra una Deuda en concepto de MULTA sancionada por el Tribunal Administrativo de Faltas Municipal, de esta Ciudad de Río Cuarto, la misma se encuentra firme y en condiciones de ser ejecutoriada .- </p>
           <p class="centrar">Que a los fines de regularizar su situación, deberá apersonarse por ante la Oficina de  Fiscalía Municipal en el plazo de cinco (5) días de recibida la presente, sito en calle 25 de Mayo  Nº 96 - 2º Piso, de lunes a viernes de 08:00 hs. a 13:00 hs.</p>
@@ -121,9 +122,9 @@
 
         <p class="centrar">EN CASO DE ESTAR ABONADO, DESESTIME ESTA NOTIFICACION.</p>
 
-        <img class="firma centrar" src="img/firma.jpg">
- 
-        <p class="justificado">Con fecha ……………………………………, siendo las ……………………horas, me constituí en el domicilio indicado precedentemente, requiriendo la presencia del (los) interesado/s y ……………… encontrándole/s, procedí a notificar la presente, que dejé ………………………… ……………………………………………………………………………………… …………………………………- Doy fe. </p>
+        <img class="firma" src="img/firma.jpg">
+		<p> </p>
+        <p class="justificado">Con fecha . . . . . . . . . siendo las . . . . . horas, me constituí en el domicilio indicado precedentemente, requiriendo la presencia del (los) interesado/s y . . . . encontrándole/s, procedí a notificar la presente, que dejé. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .. . . . . . . . .- Doy fe. </p>
         
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
