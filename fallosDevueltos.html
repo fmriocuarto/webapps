@@ -5,24 +5,64 @@
     <title>Devolucion de Fallos</title>
     <style>
         /* Estilos para el navegador */
-        .documento{
-          visibility: hidden;
-        }
-        .ejecutador{
-          visibility: visible;
-        }
-        
-	p{
-	    font-size: 20px;	
+       
+	p {
+	  font-size: calc(2.5vw);
+	  margin-top: 0px;
+	  margin-bottom: 0px;		
 	}
-	.fecha{
-    		text-align: right;
+	.titulo{
+		font-size: calc(4vw);;
+	  
+	}
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	th, td {
+		padding: 8px;
+		text-align: left;
+		border-bottom: 1px solid #ddd;
+	}
+	.caja{
+		border: calc(0.3vw);;
+		border-color: black;
+		border-style: double;
+		margin-left: 3vw;
+		width: 94vw;
+	}
+	.derecha{
+			text-align: right;
+	}
+	.centrar{
+		text-align: center;
+	}
+	.justificado{
+	 text-align: justify;
 	}
 	.block{
-            font-weight: bold;
-        }
+		font-weight: bold;
+	}
 	.encabezado{
-	    width:100%;
+		width:100%;
+	}
+	.firma{
+		width:30%;
+		margin-left:35%;
+	}
+	.documento{
+		width: 99vw;
+		height: 162vw;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.documento > * {
+		flex: 1;
+	}
+	.separado{
+		margin-left:20px;
 	}
     </style>
 </head>
@@ -53,16 +93,19 @@
     </div>
     <div id="documento" class="">
         <img class="encabezado" src="img/head.jpg">
-        </br>	
-        <p class="fecha">Río Cuarto, <span id="fechaElement"></span>.</p>
+        <p>&nbsp</p>	
+        <p class="derecha">Río Cuarto, <span id="fechaElement"></span>.</p>
         <p class="bolck"><span id="destinoElement"></span></p>
         <p>S_____________/_____________D</p>
+		<p>&nbsp</p>
         <p>De mi mayor consideración:</p>
-        <p>    Me dirijo a Ud. por medio de la presente en razón del requerimiento de efectuar la remisión a dicha Área de las Actuaciones Administrativas enviadas a Fiscalía Municipal para su cobro judicial en contra de: <span class="block" id="nombreApellidoElement"></span>; las cuales concluyeron con el dictado del Fallo <span class="block" id="numeroFalloElement"></span></p>
-        
+		<p>&nbsp</p>
+        <p>Me dirijo a Ud. por medio de la presente en razón del requerimiento de efectuar la remisión a dicha Área de las Actuaciones Administrativas enviadas a Fiscalía Municipal para su cobro judicial en contra de: <span class="block" id="nombreApellidoElement"></span>; las cuales concluyeron con el dictado del Fallo <span class="block" id="numeroFalloElement"></span></p>
+        <p> </p>
         <p id="porExpediente">En cumplimiento de ello se adjuntan a la presentes las actuaciones en original antes referidas a los fines que hubiere lugar.-</p>
-        <p id="adjuntoExpediente">Las actuaciones se encuentran en el expediente  <span id="adjuntoExpElement"></span>, por tal motivo se procede a la remisión de tal.</p>
-        </br></br>
+        <p>&nbsp</p>
+		<p id="adjuntoExpediente">Las actuaciones se encuentran en el expediente  <span id="adjuntoExpElement"></span>, por tal motivo se procede a la remisión de tal.</p>
+        <p>&nbsp</p>
         <p>    Sin otro particular, saludo a Ud. con mi más distinguida consideración.</p>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
