@@ -1,68 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">	
-    <title>Devolucion de Fallos</title>
+    <title>Devolucion Fallos</title>
     <style>
         /* Estilos para el navegador */
-       
-	p {
-	  font-size: calc(2.5vw);
-	  margin-top: 0px;
-	  margin-bottom: 0px;		
+        .documento{
+          visibility: hidden;
+        }
+        .ejecutador{
+          visibility: visible;
+        }
+        
+	p{
+	    font-size: 20px;	
 	}
-	.titulo{
-		font-size: calc(4vw);;
-	  
-	}
-	table {
-		border-collapse: collapse;
-		width: 100%;
-	}
-
-	th, td {
-		padding: 8px;
-		text-align: left;
-		border-bottom: 1px solid #ddd;
-	}
-	.caja{
-		border: calc(0.3vw);;
-		border-color: black;
-		border-style: double;
-		margin-left: 3vw;
-		width: 94vw;
-	}
-	.derecha{
-			text-align: right;
-	}
-	.centrar{
-		text-align: center;
-	}
-	.justificado{
-	 text-align: justify;
+	.fecha{
+    		text-align: right;
 	}
 	.block{
-		font-weight: bold;
-	}
+            font-weight: bold;
+        }
 	.encabezado{
-		width:100%;
-	}
-	.firma{
-		width:30%;
-		margin-left:35%;
-	}
-	.documento{
-		width: 99vw;
-		height: 162vw;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.documento > * {
-		flex: 1;
-	}
-	.separado{
-		margin-left:20px;
+	    width:100%;
 	}
     </style>
 </head>
@@ -74,7 +33,7 @@
             </br>
             <label for="nombreApellido">Nombre y Apellido:</label>
             <input type="text" id="nombreApellido" name="nombreApellido">
-            <label for="numeroFallo">N煤mero de Fallo:</label>
+            <label for="numeroFallo">N鷐ero de Fallo:</label>
             <input type="text" id="numeroFallo" name="numeroFallo">
             <input type="checkbox" id="pedidoPorExp" name="pedidoPorExp">
             <label for="pedidoPorExpediente">Pedido por expediente</label>
@@ -87,59 +46,33 @@
             </br>
 	    <input type="button" onclick="generarDocumento()" value="Imprimir">
 	    <input type="button" onclick="guardarInfo()" value="Guardar">
-	    <input type="button" onclick="" value="Buscar">
+	    <input type="button" onclick="buscarInfo()" value="Buscar">
+      <input type="button" onclick="limpiar()" value="limpiar">
+      <div id="respuesta" class="respuesta">
 		
-		<br><a href="https://docs.google.com/document/d/1__s3LNiZRHvRVJR7iDH-dqtI4nousmhg3u55-55BSiQ/edit?usp=sharing"> Powered by Nico </a>
+	  </div>
+		<a href="https://docs.google.com/document/d/1__s3LNiZRHvRVJR7iDH-dqtI4nousmhg3u55-55BSiQ/edit?usp=sharing"> Powered by Nico </a>	  
     </div>
+
     <div id="documento" class="">
         <img class="encabezado" src="img/head.jpg">
-        <p>&nbsp</p>	
-        <p class="derecha">R铆o Cuarto, <span id="fechaElement"></span>.</p>
+        </br>	
+        <p class="fecha">R韔 Cuarto, <span id="fechaElement"></span>.</p>
         <p class="bolck"><span id="destinoElement"></span></p>
         <p>S_____________/_____________D</p>
-		<p>&nbsp</p>
-        <p>De mi mayor consideraci贸n:</p>
-		<p>&nbsp</p>
-        <p>Me dirijo a Ud. por medio de la presente en raz贸n del requerimiento de efectuar la remisi贸n a dicha 脕rea de las Actuaciones Administrativas enviadas a Fiscal铆a Municipal para su cobro judicial en contra de: <span class="block" id="nombreApellidoElement"></span>; las cuales concluyeron con el dictado del Fallo <span class="block" id="numeroFalloElement"></span></p>
-        <p> </p>
+        <p>De mi mayor consideraci髇:</p>
+        <p>    Me dirijo a Ud. por medio de la presente en raz髇 del requerimiento de efectuar la remisi髇 a dicha 羠ea de las Actuaciones Administrativas enviadas a Fiscal韆 Municipal para su cobro judicial en contra de: <span class="block" id="nombreApellidoElement"></span>; las cuales concluyeron con el dictado del Fallo <span class="block" id="numeroFalloElement"></span></p>
+        
         <p id="porExpediente">En cumplimiento de ello se adjuntan a la presentes las actuaciones en original antes referidas a los fines que hubiere lugar.-</p>
-        <p>&nbsp</p>
-		<p id="adjuntoExpediente">Las actuaciones se encuentran en el expediente  <span id="adjuntoExpElement"></span>, por tal motivo se procede a la remisi贸n de tal.</p>
-        <p>&nbsp</p>
-        <p>    Sin otro particular, saludo a Ud. con mi m谩s distinguida consideraci贸n.</p>
+        <p id="adjuntoExpediente">Las actuaciones se encuentran en el expediente  <span id="adjuntoExpElement"></span>, por tal motivo se procede a la remisi髇 de tal.</p>
+        </br></br>
+        <p>    Sin otro particular, saludo a Ud. con mi m醩 distinguida consideraci髇.</p>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-      document.getElementById('fecha').value = new Date().toLocaleDateString();
-      document.getElementById('ejecutador').style.display = 'block';
-      document.getElementById('documento').style.display = 'none';
 
-      
-      function guardar(info){
-        const idScript = 'AKfycbytEMokXEL8uNwGAM7orwxBA7F2eiAtKa-xiGYKehMobnfWt6u8PfCadVFkOzMdNVxP';
-        var url = 'https://script.google.com/macros/s/'+idScript+'/exec?funcion=insertar';
-        for (var i = 0; i <= info.length - 1; i++) { 
-          url +="&C"+(i+1)+"="+ encodeURIComponent(info[i]);
-        }
-        console.log(connectServer(url));
-      }
+      limpiar();
 
-      function connectServer(url){
-        $.ajax({
-          url: url,
-          method: 'GET',
-          success: function(response) {
-            $('#resultados').html('');
-            return response;
-           },
-            error: function(error) {
-            console.error(error);
-            $('#resultados').html('Error al buscar archivos');
-          }
-        });
-
-
-      }
       function obtenerInfo() {
         // Obtener los valores de los campos del formulario
         const fecha = document.getElementById('fecha').value;
@@ -150,45 +83,106 @@
         return {fecha:fecha,nombreApellido:nombreApellido,numeroFallo:numeroFallo,destino:destino,adjuntoExp:adjuntoExp};
       }
 
+      function connect2Server(funcion, info) {
+        const idScript = 'AKfycbxhlig1KfKnHyPlnno3E8J3_6A3L-PMEhF0OaYpn0A9EDd_wuENQZoXTlNI5dFIPu1C';
+        const url = 'https://script.google.com/macros/s/' + idScript + '/exec';
+
+        const params = {};
+        params.funcion=funcion;
+        for (let i = 0; i < info.length; i++) {
+          params['C' + (i + 1)] = encodeURIComponent(info[i]);
+        }
+        return new Promise((resolve, reject) => {
+          $.ajax({
+            url: url,
+            method: 'GET',
+            data: params, // Send data as object for better organization
+            success: response => resolve(response),
+            error: error => reject(error)
+          });
+        });
+}
+
       function guardarInfo(){
+        mensaje("Guardando...");
         var info =  obtenerInfo();
-        guardar([info.fecha,info.nombreApellido,info.numeroFallo,info.destino,info.adjuntoExp]);
+        connect2Server("insertar", [info.fecha, info.nombreApellido, info.numeroFallo, info.destino, info.adjuntoExp])
+              .then(resultados => {
+                 mensaje(resultados);
+              })
+              .catch(error => {
+                console.error('Error al buscar:', error);
+              });
+
+      }
+
+      function mensaje(msj){
+         document.getElementById('respuesta').innerHTML = msj;
+      }
+      function buscarInfo() {
+          mensaje("Buscando...");
+          const info = obtenerInfo();
+          connect2Server("buscar", [info.fecha, info.nombreApellido, info.numeroFallo, info.destino, info.adjuntoExp])
+              .then(resultados => {
+                generarResultados(resultados);
+              })
+              .catch(error => {
+                console.error('Error al buscar:', error);
+              });
+        }
+
+      function generarResultados(resultados){
+        console.log(resultados);
+        limpiarResultados();
+        resultados.forEach((fila) => {
+            document.getElementById('respuesta').innerHTML += '<p>'+fila.join('-')+'</p>';
+        });
+      }
+      function limpiar(){
+        limpiarInfo()
+        limpiarResultados();
+        ocultarContenedores();
+      }
+      function ocultarContenedores(){
+        document.getElementById('ejecutador').style.display = 'block';
+        document.getElementById('documento').style.display = 'none';
+        document.getElementById('porExpediente').style.display = 'none';
+        document.getElementById('adjuntoExpediente').style.display = 'none';
+      } 
+      function limpiarResultados(){
+        document.getElementById('respuesta').innerHTML = '';
       }
 
       function generarDocumento(){
-        document.getElementById('porExpediente').style.display = 'none';
-        document.getElementById('adjuntoExpediente').style.display = 'none';
-        // Obtener los elementos span donde se reemplazar谩n los valores
-        const fechaElement= document.getElementById('fechaElement');
-        const nombreApellidoElement = document.getElementById('nombreApellidoElement');
-        const numeroFalloElement = document.getElementById('numeroFalloElement');
-        const destinoElement = document.getElementById('destinoElement');
-        const adjuntoExpElement = document.getElementById('adjuntoExpElement');
-
-        // Asignar los valores a los elementos span
         var info =  obtenerInfo();
-        fechaElement.textContent = info.fecha;
-        nombreApellidoElement.textContent =info.nombreApellido;
-        numeroFalloElement.textContent = info.numeroFallo;
-        destinoElement.textContent = info.destino;
-        adjuntoExpElement.textContent = info.adjuntoExp;
-
-        // Opcional: Mostrar el div del documento (si est谩 oculto inicialmente)
+        ocultarContenedores();
         document.getElementById('ejecutador').style.display = 'none';
         document.getElementById('documento').style.display = 'block';
+        escribirInfo(info);
         info.adjuntoExp? document.getElementById('adjuntoExpediente').style.display = 'block':"";
         document.getElementById('pedidoPorExp').checked? document.getElementById('adjuntoExpediente').style.display = 'block':"";
-        // Obtener los elementos span donde se reemplazar谩n los valores
+    
         window.print();
-	window.print();
-        guardar([info.fecha,info.nombreApellido,info.numeroFallo,info.destino,info.adjuntoExp]); 
-        //despues le vamos a meter que si no imprime no guarde
-
-        document.getElementById('ejecutador').style.display = 'block';
-        document.getElementById('documento').style.display = 'none';
+		window.print();
+        ocultarContenedores();
+        //Guardar info
+        connect2Server("insertar",[info.fecha,info.nombreApellido,info.numeroFallo,info.destino,info.adjuntoExp]);
+      }
+      function limpiarInfo(){
+        document.getElementById('fecha').value = new Date().toLocaleDateString();
+        document.getElementById('nombreApellido').value = "";
+        document.getElementById('numeroFallo').value = "";
+        document.getElementById('destino').value = "Tribunal Administrativo Municipal";
+        document.getElementById('adjuntoExp').value = "";
       }
 
-
+      function escribirInfo(info){
+        document.getElementById('fechaElement').innerHTML = info.fecha;
+        document.getElementById('nombreApellidoElement').innerHTML =info.nombreApellido;
+        document.getElementById('numeroFalloElement').innerHTML = info.numeroFallo;
+        document.getElementById('destinoElement').innerHTML = info.destino;
+        document.getElementById('adjuntoExpElement').innerHTML = info.adjuntoExp;
+      }
     </script>
 
 </body>
