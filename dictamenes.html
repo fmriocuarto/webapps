@@ -76,6 +76,17 @@
         .naranja { background-color: #eb7e39; }
         .amarillo { background-color: #f1bd4a; }
         .verde { background-color: #4eba74; }
+		
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
     </style>
 </head>
 <body>
@@ -169,24 +180,45 @@
       }
 
       function mostrarResultados(archivos) {
-	      var resultadosDiv = document.getElementById("resultado");
-	      resultadosDiv.innerHTML = "";
+	  	document.getElementById('resultado').innerHTML ="";
         console.log(archivos);
         resultados = resultados.concat(
             archivos.map(archivos => ({ ...archivos, anclado: false }))
         );
+		var reff = $('#textoABuscar').val() +":<br>"
+	    reff+= $('#aInicio').val()+"-"+ $('#aFinal').val()+"</br>";
+        reff+= $('#referencia').val();
+		
         resultados = resultados.filter(resultado => resultado.anclado)
-          .concat(archivos.map(archivo => ({ ...archivo, anclado: false })));
+          .concat(archivos.map(archivo => ({ ...archivo, anclado: false, reference: reff })));
         console.log(resultados);
+		const tabla = document.createElement('table');
         if (resultados.length){
           for (var i = 0; i < resultados.length; i++) {
+			const fila = document.createElement('tr');
             var ress = resultados[i];
-            resultadosDiv.innerHTML += `<p>[<span id="${ress.id}" onclick="anclarDesanclarResultado('${ress.id}');mostrarAncladoDesanclado('${ress.id}')">A</span>] <span onclick="mostrarPdf('${ress.id}');">${ress.name}</span></p>`;
-            mostrarAncladoDesanclado(ress.id);
+			var celda1 = document.createElement('td');
+			var celda2 = document.createElement('td');
+			var celda3 = document.createElement('td');
+			var celda4 = document.createElement('td');
+			var text = "<p>[<span id='"+ress.id+"' onclick=\"anclarDesanclarResultado('"+ress.id+"');mostrarAncladoDesanclado('"+ress.id+"')\">";
+			text+=ress.anclado?"A":"D";
+			text+="</span>]</p>";
+			celda1.innerHTML = text;
+            celda2.innerHTML = "<p>"+ress.name+"</p>";
+			celda3.innerHTML = ress.reference;
+			celda4.innerHTML = "<p onclick=\"mostrarPdf('"+ress.id+"');\">VER-></p>";
+			fila.appendChild(celda1);
+			fila.appendChild(celda2);
+			fila.appendChild(celda3);
+			fila.appendChild(celda4);
+			tabla.appendChild(fila);
           }
+		  document.getElementById('resultado').appendChild(tabla);
         }else{
           resultadosDiv.innerHTML += `Utiliza el buscador para encontrar el dictamen requerido`;
         }
+
       }
 
       var resultados = Array();
