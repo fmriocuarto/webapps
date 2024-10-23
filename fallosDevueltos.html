@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">	
     <title>Devolucion Fallos</title>
     <style>
         /* Estilos para el navegador */
-        .documento{
-          visibility: hidden;
-        }
-        .ejecutador{
-          visibility: visible;
-        }
+	.documento{
+	  visibility: hidden;
+	}
+	.ejecutador{
+	  visibility: visible;
+	}
         
 	p{
 	    font-size: 20px;	
@@ -23,6 +24,17 @@
 	.encabezado{
 	    width:100%;
 	}
+		table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	th, td {
+		padding: 8px;
+		text-align: left;
+		border-bottom: 1px solid #ddd;
+	}
+	
     </style>
 </head>
 <body>
@@ -132,11 +144,27 @@
         }
 
       function generarResultados(resultados){
-        console.log(resultados);
-        limpiarResultados();
+       /* limpiarResultados();
         resultados.forEach((fila) => {
             document.getElementById('respuesta').innerHTML += '<p>'+fila.join('-')+'</p>';
-        });
+        });*/
+		resultados.unshift(["FECHA","NOMBRE","FALLO","DESTINO","EXPEDIENTE"]);
+        // Crear la tabla
+        const tabla = document.createElement('table');
+		tabla.id = 'ressElement'; 
+
+        // Recorrer el array y crear las filas y celdas
+        for (let i = 0; i < resultados.length; i++) {
+          const fila = document.createElement('tr');
+          for (let j = 0; j < resultados[i].length; j++) {
+            const celda = document.createElement('td');
+            celda.textContent = resultados[i][j];
+            fila.appendChild(celda);
+          }
+          tabla.appendChild(fila);
+        }
+          document.getElementById('respuesta').innerHTML ="";
+          document.getElementById('respuesta').appendChild(tabla);
       }
       function limpiar(){
         limpiarInfo()
