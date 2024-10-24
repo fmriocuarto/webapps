@@ -198,7 +198,11 @@
 
         // Recorrer el array y crear las filas y celdas
         for (let i = 0; i < resultados.length; i++) {
-          const fila = document.createElement('tr');
+			const fila = document.createElement('tr');
+			const celda = document.createElement('td');
+			const text = "['"+resultados[i].join("','")+"']";
+			celda.innerHTML = "<a onclick=\"imprimirUnElementos("+text+");\">"+(i)+"</a>";
+			fila.appendChild(celda);
           for (let j = 0; j < resultados[i].length; j++) {
             const celda = document.createElement('td');
             celda.textContent = resultados[i][j];
@@ -235,7 +239,7 @@
 
 		for (let i = 1; i < filas.length; i++) {
 			const celdas = filas[i].cells;
-			escribirInfo({fecha:celdas[0].textContent,nombreApellido:celdas[1].textContent,numeroFallo:celdas[2].textContent,destino:celdas[3].textContent});
+			escribirInfo({fecha:celdas[1].textContent,nombreApellido:celdas[2].textContent,numeroFallo:celdas[3].textContent,destino:celdas[4].textContent});
 			window.print();
 			window.print();
 		}
@@ -244,6 +248,18 @@
 		document.getElementById('imprimirBusqueda').disabled = true;
 		document.getElementById('imprimirElementos').disabled = true;
       }
+	  
+		function imprimirUnElementos(celdas){
+			ocultarContenedores();
+			document.getElementById('ejecutador').style.display = 'none';
+			document.getElementById('documento').style.display = 'flex';
+			escribirInfo({fecha:celdas[0],nombreApellido:celdas[1],numeroFallo:celdas[2],destino:celdas[3]});
+			window.print();
+			window.print();
+			document.getElementById('listado').style.display = 'block';
+			document.getElementById('ejecutador').style.display = 'block';
+			document.getElementById('documento').style.display = 'none';
+		}
 	  
 	  function editarNotificación(){
 		if (document.getElementById('documento').style.display == 'flex'){
