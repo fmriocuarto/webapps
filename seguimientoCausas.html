@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Mi Plantilla Personalizada</title>
+    <title>Seguimiento de causas</title>
       <style>
         /* Estilos para el navegador */
         body{
@@ -81,7 +81,7 @@
 </head>
 <body>
     <div class="navegador azul">
-		<h1> Fiscalía webApps </h1>
+		<h1> Seguimiento de causas </h1>
     </div>
     <div class="barra-horizontal">
       <div class="barra-color-punta celeste"></div>
@@ -95,10 +95,8 @@
     </div>
     <div class="resultadoCompleto">
 		</br>
-		<a class="webAppsLinks" href="./dictamenes.html"> EXPLORADOR DE DICTAMENES </a></br></br>
-		<a class="webAppsLinks" href="./fallosDevueltos.html"> FALLOS ENVIADOS </a></br></br>
-		<a class="webAppsLinks" href="./notificaciones.html"> NOTIFICACIONES JUDICIALES </a></br></br>
-		<a class="webAppsLinks" href="./seguimientoCausas.html"> SEGUIMIENTO CAUSAS JUDICIALES </a></br></br>
+		<a class="webAppsLinks" href="https://docs.google.com/spreadsheets/d/1Ekif9gdJWIEtNejzkTM6ByyKkH2XuF03/edit?usp=drive_link&ouid=113836030973020702258&rtpof=true&sd=true"> GESTION MUÑOZ </a></br></br>
+		<a class="webAppsLinks" href="https://docs.google.com/spreadsheets/d/1VYYsRprRTX3Cm6sRX6wvFhGtdd2a4ZgN/edit?usp=drive_link&ouid=113836030973020702258&rtpof=true&sd=true"> GESTION MUÑOZ 2024 </a></br></br>
     </div>
     <div class="barra-horizontal">
       <div class="barra-color-punta celeste"></div>
@@ -113,5 +111,19 @@
     <div class="pie azul">
       <a href="https://docs.google.com/document/d/1__s3LNiZRHvRVJR7iDH-dqtI4nousmhg3u55-55BSiQ/edit?usp=sharing"> Powered by Nico </a>
     </div>  
+	<script>
+	// Función para validar la contraseña
+	function validarContrasena() {
+	  const contrasenaIngresada = prompt("Ingrese la contraseña:");
+	  const contrasenaCorrecta = "1234"; // Reemplaza con la contraseña correcta
+
+	  if (contrasenaIngresada !== contrasenaCorrecta) {
+		document.body.innerHTML = "CLAVE INCORRECTA";
+	  }
+	}
+
+	// Ejecutar la función al cargar la página
+	window.onload = validarContrasena;
+	</script>
 </body>
 </html>
